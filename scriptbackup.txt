@@ -1,0 +1,29 @@
+#!/bin/bash
+
+funcion help() {
+	echo "Ingrese: bash backup_full.sh <punto de origen> <punto de destino>
+}
+
+[ "$1" == "-h" ] && help && exit 0
+
+if [ ! $# -eq 2 ]; then
+	echo "Sp;p 2 argumentos"
+	help
+	exit 1
+fi
+
+if [ ! -d "$1" ] && [ ! -d "$2" ]; then
+	echo "Se deben ingresar directorios"
+	exit 1
+fi
+
+BACKUPEAR=$1
+DESTINO=$2
+BACKUPTIME=`date +%Y%m%d`
+
+echo "Se hara el backup de `basename $BACKUPEAR`"
+echo "Se pondra en `basename $DESTINO`"
+echo "En el dia $BACKUPTIME"
+
+MONTAJE=`df $BACKUPEAR | tail -1 | awk '{print $6}'`
+mountpoint $MONTAJE
